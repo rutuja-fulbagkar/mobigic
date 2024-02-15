@@ -1,0 +1,161 @@
+<app-header></app-header>
+
+
+<div class="row justify-content-evenly">
+    <div class="col-4">
+        <div class="form_wrapper">
+            <div class="form_container shadow p-3 mb-5 bg-body rounded">
+                <div class="title_container">
+                    <h2> Upload a file Here</h2>
+                </div>
+                <div class="row clearfix">
+                    <div class="">
+                      
+        
+                         
+                        <div class="file-upload-container mb-25">
+                            <h2>File Upload</h2>
+                            <form [formGroup]="formm" (ngSubmit)="submit()" #fileForm="ngForm" novalidate>
+                              
+                                <div class="form-group">
+                                     
+                                       
+                                    <label for="fileInput">Choose a file:</label>
+                                    <input type="file" id="fileInput" name="fileInput" class="cursor-pointer" (change)="uploadFileselected($event)" 
+                                    accept=".txt, .pdf, .doc, .docx" [(ngModel)]="selectedFile" required #fileInput="ngModel">
+                                    <br>
+                                    <br>
+                                    <div *ngIf="fileInput.invalid && (fileInput.dirty || fileInput.touched)" class="alert alert-danger mt-25">
+                                        <div *ngIf="fileInput.errors">File is required.</div>
+                                    </div>
+                                </div>
+                                <button class="btn-primary cursor-pointer" type="submit" [disabled]="fileForm.invalid">Upload</button>
+                            </form>
+                        </div>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- table -->
+    <div class="col-6 p-5 ">
+        <div class="mat-elevation-z8">
+            <ng-container *ngIf="showdata">
+            <table mat-table [dataSource]="dataSource">
+          
+              <!-- Position Column -->
+              <ng-container matColumnDef="position">
+                <th mat-header-cell *matHeaderCellDef> No. </th>
+                <td mat-cell *matCellDef="let element=index"> {{element+1}} </td>
+              </ng-container>
+          
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>File Name </th>
+                <td mat-cell *matCellDef="let element"> {{element.file_name}} </td>
+              </ng-container>
+          
+              <!-- Weight Column -->
+              <ng-container matColumnDef="weight">
+                <th mat-header-cell *matHeaderCellDef> Generated Code </th>
+                <td mat-cell *matCellDef="let element"> {{element.file_code}} </td>
+              </ng-container>
+          
+              <!-- Symbol Column -->
+              <ng-container matColumnDef="symbol">
+                <th mat-header-cell *matHeaderCellDef> Action </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <a class="edit" type="button" data-bs-toggle="modal"  data-bs-target="#staticBackdropp" (click)="opendownload(element.file_name,element.file_code)" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
+                     
+                    <!-- <a class="edit" type="button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" (click)="open_edit_popup(element.useruploadedfile_id)" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a> -->
+                    <a class="delete" title="Delete" data-toggle="tooltip" (click)="deletefile(element.useruploadedfile_id)"><i class="material-icons">&#xE872;</i></a>
+             
+                 </td>
+              </ng-container>
+
+
+<!-- Button trigger modal -->
+
+  <!-- Modal -->
+    <!--  -->
+          
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+          
+            <mat-paginator [pageSizeOptions]="[5,10,20,30,50]"
+                           showFirstLastButtons
+                           aria-label="Select page of periodic elements">
+            </mat-paginator>
+        </ng-container>
+          </div>
+          
+          
+    </div>
+  </div>
+<!-- Button trigger modal -->
+ 
+  <!-- Modal -->
+  <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="staticBackdropLabel">Edit Your File</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <ng-container *ngIf="codechek">
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Your File</label>
+                  <input type="hidden" [value]="codechek.file_id" #hiddid/>
+                  <input type="file" value="{{codechek.file_name}}"  #chnghgh class="form-control" id="exampleInputPassword1">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary" (click)="updtaedfile(chnghgh.value,hiddid.value)">Edit</button>
+                  </div>
+            </ng-container>
+                
+              </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+  <!-- dowmload -->
+  <div class="modal fade" id="staticBackdropp" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h3 class="modal-title" id="staticBackdropLabel">Download Your File</h3>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            <form>
+                <ng-container>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1" class="form-label">Enter Password</label>
+                  <input type="number" #hiddid/>
+                  <input type="hidden" #hiddids value="{{file_pass}}"/>
+                </div>
+                <div class="modal-footer">
+                    <!-- data-bs-dismiss="modal" -->
+                    <div *ngIf="showDownloadButton == true ">
+                    <button type="button" class="btn btn-secondary"  (click)="chechPass(hiddid.value,hiddids.value)"  >Submit</button>
+                  </div>
+                    <div *ngIf="showDownloadButton!= true ">
+                    <a [href]="fileURL" target="_blank" class="btn btn-border" download="fileName.pdf">Download</a>
+                </div>
+                    <!-- <a href="https://www.localhost/CodeIgniter-3.1.13-mobogic-task/uploads/{{file_name}}" download> <button type="submit" class="btn btn-primary" >Edit</button></a> -->
+                  </div>
+            </ng-container>
+                
+              </form>
+        </div>
+        
+      </div>
+    </div>
+  </div>

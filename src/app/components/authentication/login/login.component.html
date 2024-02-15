@@ -1,0 +1,77 @@
+<div class="register-container">
+    <div class="row">
+        <div class="col-md-12">
+            <mat-card>
+                <mat-card-header>
+                    <mat-card-content>
+                        <div class="d-table">
+                            <div class="d-table-cell">
+                                <div class="tagus-form ms-auto me-auto">
+                                    <div class="title">
+                                        <div class="d-flex mb-10 align-items-center">
+                                            <h2 class="mb-0 me-30"> Login Here </h2>
+                                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAATlBMVEVHcEwcbPYodPAodPD/0hIodPEodfAodPAodPAAbfolc/EodPAodPD/zQD/0AH/zAv/zQwodPAodPD/yg7/yg7/yg7/yg7/yg7/yg7/yg4NUhaQAAAAGnRSTlMAJYp/A0d4cWims//3b5CESjOi/6/e5yB5qF8ACyoAAACASURBVHgB7I61AcAwDAQVZkbvv2g+foVbl7nqxBKX/Hh+cOI/sfUwiu8kSgoibkji4MHZGHu8kJEc3LQoipILqtrSQFtqDe3Q0POFgYzwiTpDezTwhVYbWpFFdV92XRg1C11VF5HovCDfC5PjC2YExqzQhlpDo97vu23UjM5RAADf9Q3+7enHyAAAAABJRU5ErkJggg=="
+                                                width="50px" alt="logo-icon">
+                                        </div>
+                                        <p>Don't have an account? <a routerLink="/authentication/register" style="text-decoration: none;"
+                                            class="main-color fw-medium">Register now!</a></p>
+                                    </div>
+                                    <form [formGroup]="logined" (ngSubmit)="singin()">
+
+                                      
+                                        <div class="bg-white border-radius pt-20 ps-20 pe-20">
+                                            <div class="tagus-form-group without-icon">
+                                                <label class="d-block mb-12 fw-semibold gray-color">Email Address
+                                                    <span>*</span></label>
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Enter email address</mat-label>
+                                                    <input matInput type="email" formControlName="username" name="username"
+                                                        class="form-control">
+                                                </mat-form-field>
+
+                                                <div *ngIf="f['username'].touched && f['username'].invalid"
+                  class="alert alert-danger">
+                  <div
+                    *ngIf="f['username'].errors && f['username'].errors['required']">
+                    Email is required.
+                  </div>
+                  <div *ngIf="f['username'].errors && f['username'].errors['username']">
+                    Please, enter valid email address.
+                  </div>
+                </div>
+                                            </div>
+                                            <div class="tagus-form-group without-icon">
+                                                <label class="d-block mb-12 fw-semibold gray-color">Password
+                                                    <span>*</span></label>
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Enter your password</mat-label>
+                                                    <input matInput [type]="hide ? 'password' : 'text'"
+                                                        class="form-control" formControlName="password" name="password">
+                                                    <button mat-icon-button matSuffix (click)="hide = !hide"
+                                                        [attr.aria-label]="'Hide password'">
+                                                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                                    </button>
+                                                </mat-form-field>
+
+                                                <div *ngIf="f['password'].touched && f['password'].invalid"
+                                                class="alert alert-danger">
+                                                <div *ngIf="f['password'].errors && f['password'].errors['required']">
+                                                  Name is required.
+                                                </div>
+                                               
+                                              </div>
+                                                 
+                                            </div>
+                                        </div>
+
+                                        <button mat-flat-button class="tagus d-block fw-semibold">Login </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card-header>
+            </mat-card>
+        </div>
+    </div>
+</div>
